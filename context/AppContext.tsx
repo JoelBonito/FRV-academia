@@ -11,6 +11,12 @@ interface AppContextType {
   updateLead: (id: string, updates: Partial<Lead>) => void;
   deleteLead: (id: string) => void;
   getDashboardStats: () => any;
+  // Modal State
+  isModalOpen: boolean;
+  editingLead: Lead | undefined;
+  openNewLeadModal: () => void;
+  openEditLeadModal: (lead: Lead) => void;
+  closeModal: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -88,6 +94,10 @@ const generateMockLeads = (): Lead[] => {
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
+  
+  // Global Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingLead, setEditingLead] = useState<Lead | undefined>(undefined);
 
   useEffect(() => {
     // Load extensive mock data on init
@@ -167,8 +177,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
   };
 
+  // Modal Handlers
+  const openNewLeadModal = () => {
+    setEditingLead(undefined);
+    setIsModalOpen(true);
+  };
+
+  const openEditLeadModal = (lead: Lead) => {
+    setEditingLead(lead);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEditingLead(undefined);
+  };
+
   return (
-    <AppContext.Provider value={{ user, leads, login, logout, addLead, updateLead, deleteLead, getDashboardStats }}>
+    <AppContext.Provider value={{ 
+      user, 
+      leads, 
+      login, 
+      logout, 
+      addLead, 
+      updateLead, 
+      deleteLead, 
+      getDashboardStats,
+      isModalOpen,
+      editingLead,
+      openNewLeadModal,
+      openEditLeadModal,
+      closeModal
+    }}>
       {children}
     </AppContext.Provider>
   );

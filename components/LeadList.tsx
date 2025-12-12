@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Lead, LeadStatus, FinalResult } from '../types';
-import { LeadForm } from './LeadForm';
+import { LeadStatus, FinalResult } from '../types';
 import { Edit2, Trash2, Plus, Phone, Calendar, Search, Filter, MoreHorizontal } from 'lucide-react';
 
 export const LeadList: React.FC = () => {
-  const { leads, user, addLead, updateLead, deleteLead } = useApp();
+  const { leads, user, deleteLead, openNewLeadModal, openEditLeadModal } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingLead, setEditingLead] = useState<Lead | undefined>(undefined);
   const [filterStatus, setFilterStatus] = useState<string>('ALL');
 
   // Filter leads based on user role and search/status
@@ -24,32 +21,12 @@ export const LeadList: React.FC = () => {
     return matchesSearch && matchesStatus;
   }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const handleSave = (data: any) => {
-    if (editingLead) {
-      updateLead(editingLead.id, data);
-    } else {
-      addLead(data);
-    }
-    setIsModalOpen(false);
-    setEditingLead(undefined);
-  };
-
-  const openEdit = (lead: Lead) => {
-    setEditingLead(lead);
-    setIsModalOpen(true);
-  };
-
-  const openNew = () => {
-    setEditingLead(undefined);
-    setIsModalOpen(true);
-  };
-
   const getStatusStyle = (status: LeadStatus) => {
     switch (status) {
       case LeadStatus.NEW: return 'bg-blue-50 text-blue-700 border-blue-200';
       case LeadStatus.WON: return 'bg-emerald-50 text-emerald-700 border-emerald-200';
       case LeadStatus.LOST: return 'bg-rose-50 text-rose-700 border-rose-200';
-      case LeadStatus.NEGOTIATION: return 'bg-amber-50 text-amber-700 border-amber-200';
+      case LeadStatus.NEGOTIATION: return 'bg-orange-50 text-orange-700 border-orange-200';
       default: return 'bg-slate-50 text-slate-700 border-slate-200';
     }
   };
@@ -67,13 +44,6 @@ export const LeadList: React.FC = () => {
           <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Carteira de Leads</h2>
           <p className="text-slate-500 text-sm mt-1">Gerencie suas oportunidades e agendamentos.</p>
         </div>
-        <button 
-          onClick={openNew}
-          className="flex items-center px-5 py-2.5 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition-all shadow-lg shadow-violet-600/20 active:scale-95 font-medium"
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          Novo Lead
-        </button>
       </div>
 
       {/* Filters & Search - Floating Bar Style */}
@@ -85,7 +55,7 @@ export const LeadList: React.FC = () => {
             placeholder="Buscar por nome ou telefone..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-11 w-full rounded-xl border-slate-200 border-0 bg-slate-50 p-2.5 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-violet-500 focus:bg-white transition-all"
+            className="pl-11 w-full rounded-xl border-slate-200 border-0 bg-slate-50 p-2.5 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
           />
         </div>
         <div className="relative w-full md:w-56">
@@ -93,7 +63,7 @@ export const LeadList: React.FC = () => {
           <select 
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="pl-11 w-full rounded-xl border-slate-200 border-0 bg-slate-50 p-2.5 text-slate-900 focus:ring-2 focus:ring-violet-500 focus:bg-white appearance-none cursor-pointer transition-all"
+            className="pl-11 w-full rounded-xl border-slate-200 border-0 bg-slate-50 p-2.5 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:bg-white appearance-none cursor-pointer transition-all"
           >
             <option value="ALL">Todos os Status</option>
             <option value={LeadStatus.NEW}>{LeadStatus.NEW}</option>
@@ -142,7 +112,7 @@ export const LeadList: React.FC = () => {
              )}
 
              <div className="flex justify-end pt-2">
-               <button onClick={() => openEdit(lead)} className="flex items-center text-violet-600 font-medium bg-violet-50 px-4 py-2 rounded-lg text-sm">
+               <button onClick={() => openEditLeadModal(lead)} className="flex items-center text-blue-600 font-medium bg-blue-50 px-4 py-2 rounded-lg text-sm">
                  <Edit2 className="w-4 h-4 mr-2" /> Gerenciar
                </button>
              </div>
@@ -196,7 +166,7 @@ export const LeadList: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => openEdit(lead)} className="p-2 text-violet-600 hover:bg-violet-50 rounded-lg transition-colors" title="Editar">
+                      <button onClick={() => openEditLeadModal(lead)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Editar">
                         <Edit2 className="w-4 h-4" />
                       </button>
                       <button onClick={() => deleteLead(lead.id)} className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors" title="Excluir">
@@ -223,14 +193,6 @@ export const LeadList: React.FC = () => {
           </table>
         </div>
       </div>
-
-      {isModalOpen && (
-        <LeadForm 
-          initialData={editingLead} 
-          onSave={handleSave} 
-          onCancel={() => { setIsModalOpen(false); setEditingLead(undefined); }} 
-        />
-      )}
     </div>
   );
 };

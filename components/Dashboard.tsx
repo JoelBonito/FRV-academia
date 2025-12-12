@@ -5,7 +5,8 @@ import { getActionCategory } from '../constants';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { Users, TrendingUp, Target, Filter } from 'lucide-react';
 
-const COLORS = ['#7c3aed', '#db2777', '#2563eb', '#059669', '#d97706', '#dc2626', '#475569'];
+// New Palette: Orange (Energy), Blue (Focus), Green (Growth), Yellow (Optimism), Red (Alert), Slate (Neutral)
+const COLORS = ['#ea580c', '#2563eb', '#16a34a', '#f59e0b', '#dc2626', '#475569'];
 
 export const Dashboard: React.FC = () => {
   const { getDashboardStats } = useApp();
@@ -74,7 +75,7 @@ export const Dashboard: React.FC = () => {
   const ChartCard = ({ title, children, fullWidth = false, height = 300 }: any) => (
     <div className={`bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col ${fullWidth ? 'lg:col-span-2' : ''}`}>
       <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
-        <span className="w-1 h-6 bg-violet-600 rounded-full mr-3"></span>
+        <span className="w-1 h-6 bg-blue-600 rounded-full mr-3"></span>
         {title}
       </h3>
       <div style={{ height: height }} className="w-full">
@@ -87,7 +88,7 @@ export const Dashboard: React.FC = () => {
     <div className="space-y-8">
       {/* Header Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-br from-violet-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg shadow-violet-900/20">
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg shadow-blue-900/20">
           <div className="flex items-center justify-between mb-4">
              <div className="p-3 bg-white/10 rounded-xl"><Users className="w-6 h-6" /></div>
              <span className="text-xs font-medium bg-white/20 px-2 py-1 rounded">Total</span>
@@ -106,7 +107,7 @@ export const Dashboard: React.FC = () => {
         <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex flex-col justify-center">
           <div className="flex items-center justify-between mb-2">
             <p className="text-slate-500 text-sm font-bold uppercase tracking-wide">Taxa de Conversão</p>
-            <Target className="w-5 h-5 text-violet-500" />
+            <Target className="w-5 h-5 text-orange-500" />
           </div>
           <h3 className="text-3xl font-bold text-slate-800">{stats.conversionRate}%</h3>
           <p className="text-xs text-slate-400 mt-1">Meta: 30%</p>
@@ -146,7 +147,7 @@ export const Dashboard: React.FC = () => {
               <XAxis type="number" hide />
               <YAxis dataKey="name" type="category" width={80} tick={{fontSize: 12, fill: '#64748b', fontWeight: 600}} />
               <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
-              <Bar dataKey="value" fill="#8b5cf6" radius={[0, 6, 6, 0]} barSize={40} label={{ position: 'right', fill: '#64748b', fontSize: 12 }} />
+              <Bar dataKey="value" fill="#2563eb" radius={[0, 6, 6, 0]} barSize={40} label={{ position: 'right', fill: '#64748b', fontSize: 12 }} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -159,7 +160,7 @@ export const Dashboard: React.FC = () => {
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 11}} dy={10} />
               <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
               <Tooltip cursor={{fill: '#f8fafc'}} contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'}} />
-              <Bar dataKey="value" fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={50} />
+              <Bar dataKey="value" fill="#ea580c" radius={[6, 6, 0, 0]} barSize={50} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -191,7 +192,7 @@ export const Dashboard: React.FC = () => {
                 <XAxis type="number" hide />
                 <YAxis dataKey="name" type="category" width={140} tick={{fontSize: 11, fill: '#64748b'}} />
                 <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
-                <Bar dataKey="value" fill="#10b981" radius={[0, 4, 4, 0]} barSize={24} label={{ position: 'right', fill: '#64748b' }} />
+                <Bar dataKey="value" fill="#16a34a" radius={[0, 4, 4, 0]} barSize={24} label={{ position: 'right', fill: '#64748b' }} />
               </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -204,7 +205,7 @@ export const Dashboard: React.FC = () => {
                 <XAxis type="number" hide />
                 <YAxis dataKey="name" type="category" width={140} tick={{fontSize: 11, fill: '#64748b'}} />
                 <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
-                <Bar dataKey="value" fill="#ef4444" radius={[0, 4, 4, 0]} barSize={24} label={{ position: 'right', fill: '#64748b' }} />
+                <Bar dataKey="value" fill="#dc2626" radius={[0, 4, 4, 0]} barSize={24} label={{ position: 'right', fill: '#64748b' }} />
               </BarChart>
           </ResponsiveContainer>
         </ChartCard>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { LayoutDashboard, Users, LogOut, Menu, X, Dumbbell, ChevronRight } from 'lucide-react';
+import { LeadForm } from './LeadForm';
+import { LayoutDashboard, Users, LogOut, Menu, X, Dumbbell, ChevronRight, Plus } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,10 +10,19 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) => {
-  const { user, logout } = useApp();
+  const { user, logout, isModalOpen, editingLead, closeModal, addLead, updateLead, openNewLeadModal } = useApp();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+
+  const handleSaveLead = (data: any) => {
+    if (editingLead) {
+      updateLead(editingLead.id, data);
+    } else {
+      addLead(data);
+    }
+    closeModal();
+  };
 
   const NavItem = ({ id, label, icon: Icon }: any) => {
     const isActive = activeTab === id;
@@ -21,7 +31,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
         onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
         className={`group flex items-center justify-between w-full px-4 py-3.5 mb-2 rounded-xl transition-all duration-200 ease-in-out ${
           isActive 
-            ? 'bg-violet-600 text-white shadow-lg shadow-violet-900/20' 
+            ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' 
             : 'text-slate-400 hover:bg-slate-800 hover:text-white'
         }`}
       >
@@ -51,7 +61,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
         }`}
       >
         <div className="flex items-center h-20 px-6 border-b border-slate-800/50">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-600 shadow-lg shadow-violet-900/20 mr-3">
+          {/* Logo with High Energy Gradient */}
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-500 to-red-600 shadow-lg shadow-orange-900/20 mr-3">
             <Dumbbell className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -88,13 +99,29 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden bg-slate-50">
-        <header className="flex items-center justify-between lg:justify-end px-8 py-5 bg-white border-b border-slate-100 shadow-sm z-10">
+        <header className="flex items-center justify-between px-6 py-4 bg-white border-b border-slate-100 shadow-sm z-10">
           <button onClick={toggleSidebar} className="lg:hidden text-slate-500 hover:text-slate-800 focus:outline-none transition-colors">
             {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
-          <div className="hidden lg:flex items-center text-slate-500 text-sm font-medium bg-slate-50 px-4 py-2 rounded-full border border-slate-200">
-            <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
-            {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
+          
+          {/* Spacer for mobile to push right content */}
+          <div className="flex-1 lg:hidden"></div>
+
+          <div className="flex items-center space-x-4">
+             {/* Quick Action Button - Visible on all screens with text */}
+             {/* Uses Orange for High Energy/Action */}
+             <button 
+              onClick={openNewLeadModal}
+              className="flex items-center px-4 py-2 bg-orange-600 text-white text-sm font-bold rounded-lg hover:bg-orange-700 transition-all shadow-md shadow-orange-600/20 active:scale-95"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Novo Lead
+            </button>
+
+            <div className="hidden lg:flex items-center text-slate-500 text-sm font-medium bg-slate-50 px-4 py-2 rounded-full border border-slate-200">
+              <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+              {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
+            </div>
           </div>
         </header>
 
@@ -104,6 +131,15 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
           </div>
         </main>
       </div>
+
+      {/* Global Modal */}
+      {isModalOpen && (
+        <LeadForm 
+          initialData={editingLead} 
+          onSave={handleSaveLead} 
+          onCancel={closeModal} 
+        />
+      )}
     </div>
   );
 };

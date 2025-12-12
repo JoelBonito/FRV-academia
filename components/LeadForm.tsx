@@ -59,7 +59,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({ initialData, onSave, onCance
     </div>
   );
 
-  const inputClass = "w-full rounded-xl border-slate-200 border bg-slate-50 p-2.5 text-slate-900 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all shadow-sm";
+  const inputClass = "w-full rounded-xl border-slate-200 border bg-slate-50 p-2.5 text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6">
@@ -84,7 +84,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({ initialData, onSave, onCance
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Basic Info */}
             <div className="space-y-5">
-              <h4 className="text-sm font-semibold text-violet-600 border-b border-violet-100 pb-2 mb-4">Dados Pessoais</h4>
+              <h4 className="text-sm font-semibold text-blue-600 border-b border-blue-100 pb-2 mb-4">Dados Pessoais</h4>
               
               <InputGroup label="Data do Contato">
                 <input required type="date" name="date" value={formData.date} onChange={handleChange} className={inputClass} />
@@ -105,7 +105,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({ initialData, onSave, onCance
 
             {/* Interest Info */}
             <div className="space-y-5">
-              <h4 className="text-sm font-semibold text-violet-600 border-b border-violet-100 pb-2 mb-4">Interesse</h4>
+              <h4 className="text-sm font-semibold text-blue-600 border-b border-blue-100 pb-2 mb-4">Interesse</h4>
               
               <InputGroup label="Origem da Oportunidade">
                 <select name="source" value={formData.source} onChange={handleChange} className={inputClass}>
@@ -129,7 +129,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({ initialData, onSave, onCance
 
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-100">
             <h4 className="text-sm font-semibold text-slate-800 mb-4 flex items-center">
-              <Calendar className="w-4 h-4 mr-2 text-violet-600" />
+              <Calendar className="w-4 h-4 mr-2 text-blue-600" />
               Resultado e Follow-up
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -164,7 +164,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({ initialData, onSave, onCance
             <button type="button" onClick={onCancel} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-sm">
               Cancelar
             </button>
-            <button onClick={handleSubmit} type="button" className="px-5 py-2.5 text-sm font-bold text-white bg-violet-600 border border-transparent rounded-xl shadow-lg shadow-violet-600/20 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-all flex items-center">
+            <button onClick={handleSubmit} type="button" className="px-5 py-2.5 text-sm font-bold text-white bg-orange-600 border border-transparent rounded-xl shadow-lg shadow-orange-600/20 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all flex items-center">
               <Save className="w-4 h-4 mr-2" />
               {initialData ? 'Salvar Alterações' : 'Cadastrar Lead'}
             </button>

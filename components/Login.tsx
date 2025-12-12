@@ -15,7 +15,7 @@ export const Login: React.FC = () => {
     <div className="min-h-screen flex bg-slate-50">
       {/* Left Side - Brand / Image */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-600/20 to-slate-900/90 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-600/20 to-slate-900/90 z-10"></div>
         <img 
           src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" 
           alt="Gym Background" 
@@ -23,17 +23,17 @@ export const Login: React.FC = () => {
         />
         <div className="relative z-20 flex flex-col justify-between p-16 w-full">
           <div className="flex items-center space-x-3">
-             <div className="bg-white/10 p-2 rounded-xl backdrop-blur-md">
-                <Dumbbell className="h-8 w-8 text-white" />
+             <div className="bg-white/10 p-2 rounded-xl backdrop-blur-md border border-white/10">
+                <Dumbbell className="h-8 w-8 text-orange-500" />
              </div>
              <span className="text-2xl font-bold text-white tracking-wide">GymFlow</span>
           </div>
           <div>
             <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
-              Potencialize suas vendas e gestão.
+              Potencialize sua <span className="text-orange-500">energia</span> e vendas.
             </h1>
             <p className="text-slate-300 text-lg max-w-md leading-relaxed">
-              A ferramenta definitiva para consultores de alta performance. Acompanhe leads, feche vendas e bata metas.
+              A ferramenta definitiva para consultores de alta performance. Foco nos resultados e motivação nas vendas.
             </p>
           </div>
           <div className="text-slate-500 text-sm">
@@ -62,7 +62,7 @@ export const Login: React.FC = () => {
                     name="email"
                     type="text"
                     required
-                    className="w-full rounded-xl border-slate-200 border bg-white p-3.5 pl-4 text-slate-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 transition-colors"
+                    className="w-full rounded-xl border-slate-200 border bg-white p-3.5 pl-4 text-slate-900 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-colors"
                     placeholder="voce@gymflow.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -76,10 +76,10 @@ export const Login: React.FC = () => {
 
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-all shadow-lg shadow-violet-600/30"
+              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all shadow-lg shadow-orange-600/30"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <ArrowRight className="h-5 w-5 text-violet-400 group-hover:text-white transition-colors" />
+                <ArrowRight className="h-5 w-5 text-orange-200 group-hover:text-white transition-colors" />
               </span>
               Acessar Painel
             </button>
