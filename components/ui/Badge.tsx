@@ -3,19 +3,38 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "./Button"
 
 const badgeVariants = cva(
-    "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+    // Layout: Flex, centralizado, font-medium, 6px radius fixo
+    "inline-flex items-center justify-center rounded-[6px] px-2.5 py-1 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 gap-1.5 border",
     {
         variants: {
             variant: {
+                // Roxo/Azul padrão
                 default:
-                    "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+                    "bg-primary/10 text-primary border-primary/25 hover:bg-primary/20",
+
+                // Azul Claro (Novo/Lead inicial)
                 secondary:
-                    "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                    "bg-secondary/50 text-secondary-foreground border-secondary-foreground/20 hover:bg-secondary/60",
+
+                // Vermelho (Perdido)
                 destructive:
-                    "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-                outline: "text-foreground",
-                success: "border-transparent bg-green-500 text-white hover:bg-green-600 shadow-green-200",
-                warning: "border-transparent bg-yellow-500 text-white hover:bg-yellow-600",
+                    "bg-destructive/10 text-destructive border-destructive/25 hover:bg-destructive/20",
+
+                // Outline neutro
+                outline:
+                    "text-foreground border-border hover:bg-accent hover:text-accent-foreground",
+
+                // Verde (Ganho)
+                success:
+                    "bg-success/10 text-success border-success/25 hover:bg-success/20",
+
+                // Amarelo/Laranja (Em Negociação)
+                warning:
+                    "bg-warning/10 text-warning border-warning/25 hover:bg-warning/20",
+
+                // Azul/Violeta (Info)
+                info:
+                    "bg-info/10 text-info border-info/25 hover:bg-info/20",
             },
         },
         defaultVariants: {
@@ -23,6 +42,7 @@ const badgeVariants = cva(
         },
     }
 )
+
 
 export interface BadgeProps
     extends React.HTMLAttributes<HTMLDivElement>,

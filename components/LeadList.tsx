@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { LeadStatus } from '../types';
-import { Edit2, Trash2, Phone, Calendar, Search, Filter } from 'lucide-react';
+import { Edit2, Trash2, Phone, Calendar, Search, Filter, Clock, CheckCircle2, XCircle, Circle } from 'lucide-react';
 import { Card, CardContent } from './ui/Card';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
@@ -32,6 +32,16 @@ export const LeadList: React.FC = () => {
       case LeadStatus.LOST: return 'destructive';
       case LeadStatus.NEGOTIATION: return 'warning';
       default: return 'outline';
+    }
+  };
+
+  const getStatusIcon = (status: LeadStatus) => {
+    switch (status) {
+      case LeadStatus.NEW: return <Circle className="w-2.5 h-2.5 fill-current" />;
+      case LeadStatus.WON: return <CheckCircle2 className="w-3.5 h-3.5" />;
+      case LeadStatus.LOST: return <XCircle className="w-3.5 h-3.5" />;
+      case LeadStatus.NEGOTIATION: return <Clock className="w-3.5 h-3.5" />;
+      default: return null;
     }
   };
 
@@ -93,7 +103,10 @@ export const LeadList: React.FC = () => {
                     <Phone className="w-3.5 h-3.5 mr-1.5" /> {lead.phone}
                   </div>
                 </div>
-                <Badge variant={getStatusVariant(lead.status)}>{lead.status}</Badge>
+                <Badge variant={getStatusVariant(lead.status)}>
+                  {getStatusIcon(lead.status)}
+                  {lead.status}
+                </Badge>
               </div>
 
               <div className="text-sm bg-secondary/50 p-3 rounded-lg border border-border/50">
@@ -156,7 +169,10 @@ export const LeadList: React.FC = () => {
                     <div className="text-xs text-muted-foreground">{lead.time}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Badge variant={getStatusVariant(lead.status)}>{lead.status}</Badge>
+                    <Badge variant={getStatusVariant(lead.status)}>
+                      {getStatusIcon(lead.status)}
+                      {lead.status}
+                    </Badge>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     {lead.nextContactDate && lead.status !== LeadStatus.WON && lead.status !== LeadStatus.LOST ? (

@@ -57,9 +57,28 @@ module.exports = {
         },
         // Premium Brand Colors (Aliases for hardcoded values found in code)
         'slate': {
-            850: '#151F32',
-            900: '#0F172A',
-            950: '#020617',
+          850: '#151F32',
+          900: '#0F172A',
+          950: '#020617',
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+        },
+        brand: {
+          primary: "hsl(var(--brand-primary))",
+          secondary: "hsl(var(--brand-secondary))",
+          surface: "hsl(var(--brand-surface))",
+          'surface-highlight': "hsl(var(--brand-surface-highlight))",
+          border: "hsl(var(--brand-border))",
         }
       },
       borderRadius: {
@@ -77,12 +96,12 @@ module.exports = {
           to: { height: 0 },
         },
         "fade-in": {
-            from: { opacity: 0 },
-            to: { opacity: 1 }
+          from: { opacity: 0 },
+          to: { opacity: 1 }
         },
         "enter": {
-            from: { opacity: 0, transform: 'translateY(10px)' },
-            to: { opacity: 1, transform: 'translateY(0)' }
+          from: { opacity: 0, transform: 'translateY(10px)' },
+          to: { opacity: 1, transform: 'translateY(0)' }
         }
       },
       animation: {
