@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Lead, User, LeadStatus, OpportunitySource, ModalityInterest, TimeInterest, FirstContactResult, FinalResult } from '../types';
 import { MOCK_USER, MOCK_ADMIN, OPPORTUNITY_SOURCES, MODALITIES, TIME_INTERESTS, FIRST_CONTACT_RESULTS, FINAL_RESULTS } from '../constants';
 
+export type Theme = 'light' | 'dark';
+
 interface AppContextType {
   user: User | null;
   leads: Lead[];
@@ -17,9 +19,14 @@ interface AppContextType {
   openNewLeadModal: () => void;
   openEditLeadModal: (lead: Lead) => void;
   closeModal: () => void;
+  // Theme State
+  theme: Theme;
+  toggleTheme: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
+
+// ... (helpers remain the same) ...
 
 // Helper function to pick a random item from an array
 const getRandom = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
@@ -32,6 +39,8 @@ const getRandomDate = () => {
 };
 
 const generateMockLeads = (): Lead[] => {
+  // ... (mock generation logic remains the same, omitted for brevity in replacement but functionally present)
+  // NOTE: In a real replacement I should keep the logic. I will include the logic back to avoid breaking it.
   const leads: Lead[] = [];
   const consultants = [
     { id: 'u1', name: 'Carlos Silva' },
@@ -45,7 +54,7 @@ const generateMockLeads = (): Lead[] => {
     const source = getRandom(OPPORTUNITY_SOURCES);
     const modality = getRandom(MODALITIES);
     const time = getRandom(TIME_INTERESTS);
-    
+
     // Logic to make results somewhat consistent
     let firstContact = getRandom(FIRST_CONTACT_RESULTS);
     let finalResult = FinalResult.PENDENTE;
@@ -53,22 +62,22 @@ const generateMockLeads = (): Lead[] => {
 
     // Simulate realistic funnels
     if (firstContact === FirstContactResult.VENDEU) {
+      finalResult = FinalResult.VENDEU;
+      status = LeadStatus.WON;
+    } else if (firstContact === FirstContactResult.SEM_INTERESSE || firstContact === FirstContactResult.NAO_ATENDE) {
+      finalResult = getRandom([FinalResult.VALOR, FinalResult.OUTRA_ACADEMIA, FinalResult.NAO_COMPARECEU, FinalResult.PESQUISA]);
+      status = LeadStatus.LOST;
+    } else if (firstContact === FirstContactResult.AGENDAMENTO) {
+      // 50% chance of closing after scheduling
+      if (Math.random() > 0.5) {
         finalResult = FinalResult.VENDEU;
         status = LeadStatus.WON;
-    } else if (firstContact === FirstContactResult.SEM_INTERESSE || firstContact === FirstContactResult.NAO_ATENDE) {
-        finalResult = getRandom([FinalResult.VALOR, FinalResult.OUTRA_ACADEMIA, FinalResult.NAO_COMPARECEU, FinalResult.PESQUISA]);
-        status = LeadStatus.LOST;
-    } else if (firstContact === FirstContactResult.AGENDAMENTO) {
-        // 50% chance of closing after scheduling
-        if (Math.random() > 0.5) {
-            finalResult = FinalResult.VENDEU;
-            status = LeadStatus.WON;
-        } else {
-            finalResult = getRandom([FinalResult.PENDENTE, FinalResult.NAO_COMPARECEU, FinalResult.ADESAO]);
-            status = finalResult === FinalResult.PENDENTE ? LeadStatus.NEGOTIATION : LeadStatus.LOST;
-        }
+      } else {
+        finalResult = getRandom([FinalResult.PENDENTE, FinalResult.NAO_COMPARECEU, FinalResult.ADESAO]);
+        status = finalResult === FinalResult.PENDENTE ? LeadStatus.NEGOTIATION : LeadStatus.LOST;
+      }
     } else {
-        status = LeadStatus.NEGOTIATION;
+      status = LeadStatus.NEGOTIATION;
     }
 
     leads.push({
@@ -94,7 +103,16 @@ const generateMockLeads = (): Lead[] => {
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  
+
+  // Theme State
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return (savedTheme as Theme) || 'light';
+    }
+    return 'light';
+  });
+
   // Global Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingLead, setEditingLead] = useState<Lead | undefined>(undefined);
@@ -103,6 +121,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // Load extensive mock data on init
     setLeads(generateMockLeads());
   }, []);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   const login = (email: string) => {
     if (email.includes('admin')) {
@@ -118,16 +147,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const addLead = (leadData: Omit<Lead, 'id' | 'consultantId' | 'consultantName' | 'status'>) => {
     if (!user) return;
-    
+
     // Auto-calculate status based on results
     let status = LeadStatus.NEW;
     if (leadData.finalResult === FinalResult.VENDEU) status = LeadStatus.WON;
     else if (
-        leadData.finalResult !== FinalResult.PENDENTE
+      leadData.finalResult !== FinalResult.PENDENTE
     ) {
-        status = LeadStatus.LOST;
+      status = LeadStatus.LOST;
     } else if (leadData.firstContactResult === FirstContactResult.AGENDAMENTO) {
-        status = LeadStatus.NEGOTIATION;
+      status = LeadStatus.NEGOTIATION;
     }
 
     const newLead: Lead = {
@@ -144,9 +173,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const updateLead = (id: string, updates: Partial<Lead>) => {
     setLeads(prev => prev.map(lead => {
       if (lead.id !== id) return lead;
-      
+
       const updatedLead = { ...lead, ...updates };
-      
+
       // Recalculate status logic (simplified)
       if (updatedLead.finalResult === FinalResult.VENDEU) updatedLead.status = LeadStatus.WON;
       else if (updatedLead.finalResult !== FinalResult.PENDENTE) updatedLead.status = LeadStatus.LOST;
@@ -167,7 +196,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const totalLeads = relevantLeads.length;
     const totalSales = relevantLeads.filter(l => l.finalResult === FinalResult.VENDEU).length;
     const activeLeads = relevantLeads.filter(l => l.status === LeadStatus.NEGOTIATION || l.status === LeadStatus.NEW).length;
-    
+
     return {
       totalLeads,
       totalSales,
@@ -194,20 +223,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   return (
-    <AppContext.Provider value={{ 
-      user, 
-      leads, 
-      login, 
-      logout, 
-      addLead, 
-      updateLead, 
-      deleteLead, 
+    <AppContext.Provider value={{
+      user,
+      leads,
+      login,
+      logout,
+      addLead,
+      updateLead,
+      deleteLead,
       getDashboardStats,
       isModalOpen,
       editingLead,
       openNewLeadModal,
       openEditLeadModal,
-      closeModal
+      closeModal,
+      theme,
+      toggleTheme
     }}>
       {children}
     </AppContext.Provider>
