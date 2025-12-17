@@ -26,7 +26,7 @@ export const Login: React.FC = () => {
     <div className="min-h-screen flex bg-background font-sans">
       {/* Left Side - Brand / Image */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-slate-950 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-600/30 to-slate-950/90 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-gym-orange/30 to-slate-950/90 z-10"></div>
         <img
           src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
           alt="Gym Background"
@@ -35,14 +35,14 @@ export const Login: React.FC = () => {
         <div className="relative z-20 flex flex-col justify-between p-16 w-full h-full">
           <div className="flex items-center space-x-3 animate-enter">
             <div className="bg-white/10 p-2.5 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
-              <Dumbbell className="h-8 w-8 text-orange-500" />
+              <Dumbbell className="h-8 w-8 text-brand-gym-orange" />
             </div>
             <span className="text-2xl font-bold text-white tracking-wide drop-shadow-md">GymFlow</span>
           </div>
 
           <div className="space-y-6 max-w-lg animate-enter" style={{ animationDelay: '0.1s' }}>
             <h1 className="text-5xl font-bold text-white leading-tight drop-shadow-sm">
-              Potencialize sua <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">energia</span> e suas vendas.
+              Potencialize sua <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-gym-orange to-brand-gym-red">energia</span> e suas vendas.
             </h1>
             <p className="text-slate-200 text-lg leading-relaxed font-light">
               A ferramenta definitiva para consultores de alta performance.
@@ -79,7 +79,7 @@ export const Login: React.FC = () => {
                     name="email"
                     type="text"
                     required
-                    className="pl-10 py-5 text-base rounded-xl border-slate-200 focus:border-orange-500 focus:ring-orange-500 shadow-sm"
+                    className="pl-10 py-5 text-base rounded-xl border-slate-200 focus:border-brand-gym-orange focus:ring-brand-gym-orange shadow-sm"
                     placeholder="voce@gymflow.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -95,7 +95,7 @@ export const Login: React.FC = () => {
               type="submit"
               variant="default" // Usando default mas estilizado com classes para o gradiente específico
               size="lg"
-              className="w-full py-6 text-base font-bold rounded-xl bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02]"
+              className="w-full py-6 text-base font-bold rounded-xl bg-gradient-to-r from-brand-gym-orange to-brand-gym-red hover:from-brand-gym-orange hover:to-brand-gym-red shadow-lg shadow-brand-gym-orange/25 transition-all hover:scale-[1.02]"
               isLoading={isLoading}
             >
               {!isLoading && (

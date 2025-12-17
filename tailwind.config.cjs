@@ -79,6 +79,14 @@ module.exports = {
           surface: "hsl(var(--brand-surface))",
           'surface-highlight': "hsl(var(--brand-surface-highlight))",
           border: "hsl(var(--brand-border))",
+          'surface-highlight': "hsl(var(--brand-surface-highlight))",
+          border: "hsl(var(--brand-border))",
+          gym: {
+            orange: "hsl(var(--brand-gym-orange))",
+            red: "hsl(var(--brand-gym-red))",
+            start: "hsl(var(--brand-gym-gradient-start))",
+            end: "hsl(var(--brand-gym-gradient-end))",
+          }
         }
       },
       borderRadius: {

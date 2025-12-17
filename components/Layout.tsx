@@ -60,8 +60,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
           }`}
       >
         <div className="flex items-center h-20 px-6 border-b border-border/50">
-          {/* Logo with High Energy Gradient */}
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-500 to-red-600 shadow-lg shadow-orange-900/20 mr-3">
+          {/* Logo with High Energy Gradient (GymFlow Brand) */}
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-gym-orange to-brand-gym-red shadow-lg shadow-brand-gym-orange/20 mr-3">
             <Dumbbell className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -129,7 +129,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
             {/* Quick Action Button - Right Aligned */}
             <Button
               onClick={openNewLeadModal}
-              className="bg-orange-600 hover:bg-orange-700 text-white shadow-md shadow-orange-600/20 active:scale-95"
+              className="bg-brand-gym-orange hover:bg-brand-gym-orange/90 text-white shadow-md shadow-brand-gym-orange/20 active:scale-95"
             >
               <Plus className="w-4 h-4 mr-2" />
               Novo Lead

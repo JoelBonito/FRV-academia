@@ -7,7 +7,15 @@ import { Users, TrendingUp, Target, Filter } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/Card';
 
 // New Palette: Orange (Energy), Blue (Focus), Green (Growth), Yellow (Optimism), Red (Alert), Slate (Neutral)
-const COLORS = ['#ea580c', '#2563eb', '#16a34a', '#f59e0b', '#dc2626', '#475569'];
+// Palette mapped to Design System Tokens
+const COLORS = [
+  'hsl(var(--brand-gym-orange))', // Energy (GymFlow Brand)
+  'hsl(var(--info))',             // Focus (Blue)
+  'hsl(var(--success))',          // Growth (Green)
+  'hsl(var(--warning))',          // Optimism (Yellow)
+  'hsl(var(--destructive))',      // Alert (Red)
+  'hsl(var(--muted-foreground))'  // Neutral (Slate)
+];
 
 export const Dashboard: React.FC = () => {
   const { getDashboardStats } = useApp();
@@ -94,7 +102,7 @@ export const Dashboard: React.FC = () => {
       {/* Header Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* KPI 1: Total Leads - Premium Gradient */}
-        <Card className="bg-gradient-to-br from-blue-600 to-indigo-700 border-none text-white shadow-lg shadow-blue-600/20">
+        <Card className="bg-gradient-to-br from-brand-primary to-brand-secondary border-none text-white shadow-lg shadow-brand-primary/20">
           <CardContent className="p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10 blur-3xl"></div>
 
@@ -103,40 +111,40 @@ export const Dashboard: React.FC = () => {
               <span className="text-xs font-bold uppercase tracking-wider bg-black/20 px-2 py-1 rounded text-blue-100">Visão Geral</span>
             </div>
             <div className="relative z-10">
-              <p className="text-blue-100/80 text-sm font-medium uppercase tracking-wide">Total de Leads</p>
+              <p className="text-white/80 text-sm font-medium uppercase tracking-wide">Total de Leads</p>
               <h3 className="text-4xl font-bold mt-1 tracking-tight">{stats.totalLeads}</h3>
             </div>
           </CardContent>
         </Card>
 
         {/* KPI 2: Sales */}
-        <Card className="hover:border-emerald-500/50 transition-colors">
+        <Card className="hover:border-success/50 transition-colors">
           <CardContent className="p-6 flex flex-col justify-center h-full">
             <div className="flex items-center justify-between mb-2">
               <p className="text-muted-foreground text-xs font-bold uppercase tracking-wide">Vendas Realizadas</p>
-              <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                <TrendingUp className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <div className="p-2 bg-success/10 rounded-lg">
+                <TrendingUp className="w-5 h-5 text-success" />
               </div>
             </div>
             <h3 className="text-3xl font-bold text-foreground">{stats.totalSales}</h3>
-            <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1 flex items-center">
+            <p className="text-xs text-success font-semibold mt-1 flex items-center">
               +12% <span className="text-muted-foreground font-normal ml-1">vs mês anterior</span>
             </p>
           </CardContent>
         </Card>
 
         {/* KPI 3: Conversion */}
-        <Card className="hover:border-orange-500/50 transition-colors">
+        <Card className="hover:border-brand-gym-orange/50 transition-colors">
           <CardContent className="p-6 flex flex-col justify-center h-full">
             <div className="flex items-center justify-between mb-2">
               <p className="text-muted-foreground text-xs font-bold uppercase tracking-wide">Taxa de Conversão</p>
-              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                <Target className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+              <div className="p-2 bg-brand-gym-orange/10 rounded-lg">
+                <Target className="w-5 h-5 text-brand-gym-orange" />
               </div>
             </div>
             <h3 className="text-3xl font-bold text-foreground">{stats.conversionRate}%</h3>
             <div className="w-full bg-secondary h-1.5 rounded-full mt-2 overflow-hidden">
-              <div className="bg-orange-500 h-full rounded-full" style={{ width: `${Math.min(stats.conversionRate, 100)}%` }}></div>
+              <div className="bg-brand-gym-orange h-full rounded-full" style={{ width: `${Math.min(stats.conversionRate, 100)}%` }}></div>
             </div>
             <p className="text-xs text-muted-foreground mt-1.5 font-medium">Meta Anual: 30%</p>
           </CardContent>
@@ -189,7 +197,7 @@ export const Dashboard: React.FC = () => {
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} dy={10} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} />
               <Tooltip cursor={{ fill: 'hsl(var(--secondary))' }} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
-              <Bar dataKey="value" fill="#ea580c" radius={[6, 6, 0, 0]} barSize={50} />
+              <Bar dataKey="value" fill="hsl(var(--brand-gym-orange))" radius={[6, 6, 0, 0]} barSize={50} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -208,7 +216,7 @@ export const Dashboard: React.FC = () => {
                 interval={0}
               />
               <Tooltip cursor={{ fill: 'hsl(var(--secondary))' }} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
-              <Bar dataKey="value" fill="#6366f1" radius={[0, 4, 4, 0]} barSize={18} label={{ position: 'right', fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+              <Bar dataKey="value" fill="hsl(var(--brand-primary))" radius={[0, 4, 4, 0]} barSize={18} label={{ position: 'right', fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -221,7 +229,7 @@ export const Dashboard: React.FC = () => {
               <XAxis type="number" hide />
               <YAxis dataKey="name" type="category" width={140} tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
               <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
-              <Bar dataKey="value" fill="#16a34a" radius={[0, 4, 4, 0]} barSize={24} label={{ position: 'right', fill: 'hsl(var(--muted-foreground))' }} />
+              <Bar dataKey="value" fill="hsl(var(--success))" radius={[0, 4, 4, 0]} barSize={24} label={{ position: 'right', fill: 'hsl(var(--muted-foreground))' }} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -234,7 +242,7 @@ export const Dashboard: React.FC = () => {
               <XAxis type="number" hide />
               <YAxis dataKey="name" type="category" width={140} tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
               <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
-              <Bar dataKey="value" fill="#dc2626" radius={[0, 4, 4, 0]} barSize={24} label={{ position: 'right', fill: 'hsl(var(--muted-foreground))' }} />
+              <Bar dataKey="value" fill="hsl(var(--destructive))" radius={[0, 4, 4, 0]} barSize={24} label={{ position: 'right', fill: 'hsl(var(--muted-foreground))' }} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
